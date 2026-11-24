@@ -1,0 +1,30 @@
+# ==============================================================
+# CI - Se ejecuta en cada push y pull request.
+# 1) Revisa la sintaxis de todos los scripts (bash -n)
+# 2) Analiza buenas practicas con ShellCheck
+# 3) Ejecuta las pruebas automaticas (escenarios validos e invalidos)
+# Si algo falla, GitHub marca el commit con una X roja.
+# ==============================================================
+name: CI - Validacion de scripts
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el repositorio
+        uses: actions/checkout@v4
+
+      - name: Revisar sintaxis (bash -n)
+        run: find . -name '*.sh' -print0 | xargs -0 -n1 bash -n
+
+      - name: Analisis estatico (ShellCheck)
+        run: find . -name '*.sh' -print0 | xargs -0 shellcheck -x
+
+      - name: Pruebas automaticas
+        run: bash tests/run_tests.sh

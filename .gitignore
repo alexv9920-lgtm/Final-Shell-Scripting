@@ -1,0 +1,11 @@
+# Archivos generados al ejecutar los scripts (no se versionan)
+*.log
+*.lock
+*.tmp
+reportes/
+final_shell/
+# Credenciales: NUNCA se suben al repositorio
+credenciales*
+*.pem
+*.key
+.env
